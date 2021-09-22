@@ -1,0 +1,2 @@
+cd %~dp0
+g++ ./src/main.cpp ./src/encode.cpp ./src/table.cpp ./src/calculate_ECcode.cpp -o run
