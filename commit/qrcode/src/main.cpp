@@ -31,6 +31,7 @@ inline bool cmp(int x,int y){return x < y;}
 #include "table.h"
 #include "encode.h"
 #include "calculate_ECcode.h"
+#include "fill_matrix.h"
 
 int main(){
     int version;
@@ -64,12 +65,12 @@ int main(){
     bitStream += fillCapacity( bitStream , TotalNumber_of_DataCodeWords( version , level ) );
 
     // 输出01数据流
-    cout << "下面是 version = " << version << " ，level = " << level << " 下 \"" << input << "\" 经过编码后生成的01数据流：\n";
-    len = bitStream.length();
-    rep(i,0,len-1){
-        cout << bitStream[i];
-         if(!((i+1)%8)) cout << " ";
-    }cout << "\nOver\n\n";
+    // cout << "下面是 version = " << version << " ，level = " << level << " 下 \"" << input << "\" 经过编码后生成的01数据流：\n";
+    // len = bitStream.length();
+    // rep(i,0,len-1){
+    //     cout << bitStream[i];
+    //      if(!((i+1)%8)) cout << " ";
+    // }cout << "\nOver\n\n";
 
 // 计算纠错码
 // -------------------------------------
@@ -77,15 +78,16 @@ int main(){
     a_int ECcode = ECcode_make( bitStream , ECCodewordsPerBlock( version , level ) );
 
     // 输出纠错码
-    len = ECcode.len;
-    cout << "下面是 version = " << version << " ，level = " << level << " 下 \"" << input << "\" 对应的纠错码：\n";
-    rep(i,0,len-1){
-        cout << "[#" << i << "]: " << ECcode.a[i] << "\n";
-    }cout << "Over\n\n";
+    // len = ECcode.len;
+    // cout << "下面是 version = " << version << " ，level = " << level << " 下 \"" << input << "\" 对应的纠错码：\n";
+    // rep(i,0,len-1){
+    //     cout << "[#" << i << "]: " << ECcode.a[i] << "\n";
+    // }cout << "Over\n\n";
 
 // 填充矩阵
 // -------------------------------------
 
+    string combinedData = combine( bitStream , ECcode ); 
 
 
 // 选择掩码
