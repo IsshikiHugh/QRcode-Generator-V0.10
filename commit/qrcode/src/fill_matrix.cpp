@@ -28,7 +28,8 @@ void print_matrix( matrix output ){
     rep(j,0,output.size-1) rep(i,0,output.size-1){
         if(output.a[i][j] == 1) cout << "■ ";
         else if(output.a[i][j] == 0) cout << "□ ";
-        else cout << "x ";
+        else if(output.a[i][j] == 3) cout << "# ";
+        else cout << "o ";
         if(i == output.size-1 ) cout << "\n";
     }
 }
@@ -119,11 +120,67 @@ matrix draw_stencil( int version ){
     return output; 
 }
 
+std::pair< int , std::pair<int,int> > next_position( int x , int y , int now , int size){
+    int map_NP[4][2] = { {-1,0} , {1,-1} , {-1,0} , {1,1} };
+    int map_N[4] = { 1,0,3,2 };
+
+    if(y == 0 && now == 1){
+        if(x == 7) x = 5;
+        else x = x-1;
+        now = 2;
+    } else if(y == size-1 && now == 3){
+        x = x-1 , now = 0;
+    } else {
+        x += map_NP[now][0],
+        y += map_NP[now][1];
+        now = map_N[now];
+    }
+
+    return mkp( now , mkp(x,y) );
+}
+
+matrix place_data( matrix m , string data ){
+    int x , y , now = 0 , size = m.size , len = data.length();
+    std::pair< int , std::pair<int,int> > v;
+    
+    // now 的说明
+    // [3] ← [2] ← [1] ← [0]
+    //     ↘          ↗ 
+    // [3] ← [2]   [1] ← [0]
+    //     ↘          ↗ 
+    // [3] ← [2]   [1] ← [0]
+    //     ↘          ↗     
+
+    x = y = size - 1;
+    rep(i,0,len-1){
+        
+        // 调试
+        // cout << i << " " << now << " " << x << " " << y << "\n";
+
+        if(m.a[x][y] < 0) m.a[x][y] = data[i] - '0';
+        else --i;
+        v = next_position( x , y , now , size);
+        now = v.first , x = v.second.first , y = v.second.second;
+    }
+    return m;
+}
+
 matrix fill_data( matrix m , string data ){
     int size = m.size;
     
     // 黑点码元
     m.a[8][ size-8 ] = 1;
+
+    // 预留格式信息
+    rep(i,0,8) if(m.a[i][8] < 0) m.a[i][8] = 3;
+    rep(j,0,7) if(m.a[8][j] < 0) m.a[8][j] = 3;
+    rep(i,0,7) if(m.a[ size-8 + i ][8] < 0) m.a[ size-8 + i ][8] = 3;
+    rep(j,0,6) if(m.a[8][ size-7 + j ] < 0) m.a[8][ size-7 + j ] = 3; 
+
+    // 填充数据
+    m = place_data( m , data );
+
+    // print_matrix(m);
 
     return m;
 }
