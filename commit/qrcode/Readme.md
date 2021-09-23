@@ -19,6 +19,8 @@ QRcode Generator V0.10
 │   ├── table.h                 // 字符内容转01数据流.h
 │   ├── calculate_ECcode.cpp    // 计算纠错码.cpp
 │   ├── calculate_ECcode.h      // 计算纠错码.h
+│   ├── fill_matrix.cpp         // 矩阵填充.cpp
+│   ├── fill_matrix.h           // 矩阵填充.h
 │   └──                         // EoF
 └── doc.md                      // 文档
 ```
