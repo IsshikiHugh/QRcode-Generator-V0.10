@@ -76,7 +76,9 @@ string encode( string str ){
 string encode_make( string msg ){
     // 实现 混合字符串 到 01数据流(字符串形式，从右到左)
     initialize();
-    string product = "0010000001000" + encode(msg) + "0000";
+    string str = "";
+    str = decimal_to_binary( msg.length()-1 , 9);
+    string product = "0010" + str + encode(msg);
     return product;
 }
 

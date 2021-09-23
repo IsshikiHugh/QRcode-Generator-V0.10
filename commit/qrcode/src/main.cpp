@@ -59,6 +59,7 @@ int main(){
     // 得到01数据流（输出字符串形式，从右到左）
     bitStream = encode_make( originalData );
     // 补充长度为 8*n 方便后续切割
+    if( len <= TotalNumber_of_DataCodeWords( version , level ) - 4 ) bitStream += "0000";
     len = bitStream.length();
     rep(i,1,8-(len%8)) bitStream += "0";
     // 填充码字至容量上限
@@ -88,7 +89,8 @@ int main(){
 // -------------------------------------
 
     string combinedData = combine( bitStream , ECcode ); 
-
+    matrix qrCodeMatrix = draw_stencil( version );
+    qrCodeMatrix = fill_data( qrCodeMatrix , combinedData );
 
 // 选择掩码
 // -------------------------------------
