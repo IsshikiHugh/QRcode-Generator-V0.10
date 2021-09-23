@@ -1,3 +1,6 @@
+#pragma once
+#include "calculate_ECcode.h"
+
 struct matrix{
     int a[64][64];
     int size;
@@ -12,3 +15,5 @@ matrix draw_stencil( int version );
 
 // 用于填充数据
 matrix fill_data( matrix m , string data );
+
+void print_matrix( matrix output );

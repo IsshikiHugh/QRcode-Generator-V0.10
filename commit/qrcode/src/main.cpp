@@ -26,12 +26,14 @@ typedef long long ll;
 typedef unsigned long long ull;
 using std::string;using std::cin;using std::cout;
 inline bool cmp(int x,int y){return x < y;}
+const int inf = 1e9+9;
 /* -fsanitize=undefined  */
 
 #include "table.h"
 #include "encode.h"
 #include "calculate_ECcode.h"
 #include "fill_matrix.h"
+#include "mask.h"
 
 int main(){
     int version;
@@ -90,11 +92,39 @@ int main(){
 
     string combinedData = combine( bitStream , ECcode ); 
     matrix qrCodeMatrix = draw_stencil( version );
+    matrix baseMatrix = qrCodeMatrix;
     qrCodeMatrix = fill_data( qrCodeMatrix , combinedData );
 
 // 选择掩码
 // -------------------------------------
 
+    baseMatrix = extract_base( baseMatrix );
+    matrix maskMatrix_best , maskMatrix_tmp;
+    int score_best , score_tmp;
+    int mode_best = 0 , mode_tmp = 0;
+    
+    maskMatrix_tmp = make_mask( baseMatrix , 0 );
+    score_best = score_tmp = score_mask( maskMatrix_tmp , qrCodeMatrix );
+
+    // 调试
+    // cout << "0\n";
+    // print_matrix(maskMatrix_tmp);
+
+    rep(i,1,7){
+        maskMatrix_tmp = make_mask( baseMatrix , i );
+        score_tmp = score_mask( maskMatrix_tmp , qrCodeMatrix );
+        mode_tmp = i;
+
+        if(score_best > score_tmp){
+            maskMatrix_best = maskMatrix_tmp,
+            score_best = score_tmp,
+            mode_best = mode_tmp;
+        }
+        
+        // 调试
+        // cout << i << "\n";
+        // print_matrix(maskMatrix_tmp);
+    }
 
 
 // 填充格式信息

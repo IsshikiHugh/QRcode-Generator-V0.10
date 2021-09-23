@@ -1,3 +1,5 @@
+#pragma once
+
 struct a_int{
     int a[1024];
     int len;

@@ -1,3 +1,5 @@
+#pragma once
+
 // 根据版本和纠错等级返回码字容量
 int TotalNumber_of_DataCodeWords( int version , char level );
 
