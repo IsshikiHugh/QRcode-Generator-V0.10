@@ -31,3 +31,9 @@ programed by 夏彦
 │   └── mask.h                  // 掩码.h
 └── doc.md                      // 文档
 ```
+
+## 学习过程中主要参考文档
+
+- http://www.doc88.com/p-9915715319519.html
+- https://www.thonky.com/qr-code-tutorial/data-encoding
+
