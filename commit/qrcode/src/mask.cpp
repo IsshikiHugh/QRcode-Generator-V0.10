@@ -81,12 +81,12 @@ int condition1( matrix m ){
     int ans = 0 , size = m.size , pre , cnt ;
     
     rep(j,0,size-1){
-        pre = m.a[0][j]%2 , cnt = 1;
+        pre = m.a[0][j] , cnt = 1;
         rep(i,1,size-1){
-            if(m.a[i][j]%2 == pre) ++cnt;
+            if(m.a[i][j] == pre) ++cnt;
             else {
                 if(cnt >= 5) ans += cnt-2;
-                pre = m.a[i][j]%2 , cnt = 1;
+                pre = m.a[i][j] , cnt = 1;
             }
         }
         if(cnt >= 5) ans += cnt-2;
@@ -94,12 +94,12 @@ int condition1( matrix m ){
     }
 
     rep(i,0,size-1){
-        pre = m.a[i][0]%2 , cnt = 1;
+        pre = m.a[i][0] , cnt = 1;
         rep(j,1,size-1){
-            if(m.a[i][j]%2 == pre) ++cnt;
+            if(m.a[i][j] == pre) ++cnt;
             else {
                 if(cnt >= 5) ans += cnt-2;
-                pre = m.a[i][j]%2 , cnt = 1;
+                pre = m.a[i][j] , cnt = 1;
             }
         }
         if(cnt >= 5) ans += cnt-2;
@@ -112,11 +112,11 @@ int condition1( matrix m ){
 int condition2( matrix m ){
     int ans = 0 , size = m.size , color;
     rep(i,0,size-2) rep(j,0,size-2){
-        color = m.a[i][j]%2;
+        color = m.a[i][j];
         if(
-            color == m.a[i+1][j]%2 &&
-            color == m.a[i][j+1]%2 &&
-            color == m.a[i+1][j+1]%2
+            color == m.a[i+1][j] &&
+            color == m.a[i][j+1] &&
+            color == m.a[i+1][j+1]
         ) ans += 3;
     }
     // cout << ans << "\n";
@@ -129,31 +129,31 @@ int condition3( matrix m ){
         rep(i,0,size-11){
             if(
                 // 00001011101
-                m.a[i][j]%2    == 0 &&
-                m.a[i+1][j]%2  == 0 &&
-                m.a[i+2][j]%2  == 0 &&
-                m.a[i+3][j]%2  == 0 &&
-                m.a[i+4][j]%2  == 1 &&
-                m.a[i+5][j]%2  == 0 &&
-                m.a[i+6][j]%2  == 1 &&
-                m.a[i+7][j]%2  == 1 &&
-                m.a[i+8][j]%2  == 1 &&
-                m.a[i+9][j]%2  == 0 &&
-                m.a[i+10][j]%2 == 1
+                m.a[i][j]    == 0 &&
+                m.a[i+1][j]  == 0 &&
+                m.a[i+2][j]  == 0 &&
+                m.a[i+3][j]  == 0 &&
+                m.a[i+4][j]  == 1 &&
+                m.a[i+5][j]  == 0 &&
+                m.a[i+6][j]  == 1 &&
+                m.a[i+7][j]  == 1 &&
+                m.a[i+8][j]  == 1 &&
+                m.a[i+9][j]  == 0 &&
+                m.a[i+10][j] == 1
             ) ans += 40;
             else if(
                 // 10111010000
-                m.a[i][j]%2    == 1 &&
-                m.a[i+1][j]%2  == 0 &&
-                m.a[i+2][j]%2  == 1 &&
-                m.a[i+3][j]%2  == 1 &&
-                m.a[i+4][j]%2  == 1 &&
-                m.a[i+5][j]%2  == 0 &&
-                m.a[i+6][j]%2  == 1 &&
-                m.a[i+7][j]%2  == 0 &&
-                m.a[i+8][j]%2  == 0 &&
-                m.a[i+9][j]%2  == 0 &&
-                m.a[i+10][j]%2 == 0
+                m.a[i][j]    == 1 &&
+                m.a[i+1][j]  == 0 &&
+                m.a[i+2][j]  == 1 &&
+                m.a[i+3][j]  == 1 &&
+                m.a[i+4][j]  == 1 &&
+                m.a[i+5][j]  == 0 &&
+                m.a[i+6][j]  == 1 &&
+                m.a[i+7][j]  == 0 &&
+                m.a[i+8][j]  == 0 &&
+                m.a[i+9][j]  == 0 &&
+                m.a[i+10][j] == 0
             ) ans += 40;
         }
     }
@@ -196,7 +196,7 @@ int condition3( matrix m ){
 
 int condition4( matrix m ){
     int ans , cnt[2] = {0,0} , size = m.size , ppt , upper , lower;
-    rep(i,0,size-1) rep(j,0,size-1) ++cnt[ m.a[i][j]%2 ];
+    rep(i,0,size-1) rep(j,0,size-1) ++cnt[ m.a[i][j] ];
     ppt = cnt[1] * 100 / ( cnt[0] + cnt[1] );
     upper = (ppt / 5 + 1),
     lower = (ppt / 5    );

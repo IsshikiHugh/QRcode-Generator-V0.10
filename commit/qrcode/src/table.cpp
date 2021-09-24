@@ -108,6 +108,7 @@ int Integer_to_Exponent( int x ){
 
 // 指数 -> 整数
 int Exponent_to_Integer( int p ){
+    if(p == -1) return 0;   
     int map[512] = {
         1,2,4,8,16,32,64,128,29,58,116,232,205,135,19,38,
         76,152,45,90,180,117,234,201,143,3,6,12,24,48,96,192,
@@ -131,7 +132,7 @@ int Exponent_to_Integer( int p ){
 
 // 返回格式信息码
 string typeInformationBits( char level , int mode ){
-    string output = "" , tmp;
+    string tmp;
     if(level == 'L'){
         switch (mode){
         case 0:
@@ -250,7 +251,7 @@ string typeInformationBits( char level , int mode ){
         }
     }
 
-    per(i,14,0) output += tmp[i];
-    return output;
+    // per(i,14,0) output += tmp[i];
+    return tmp;
 }
 

@@ -36,6 +36,14 @@
 
 ------
 
+### `string` `typeInformationBits( char level , int mode )`
+
+该函数读取两个参数 `(char)leve` , `(int)mode` 
+
+将返回 level 下用 mode 号掩码对应的格式信息码**最低位在最左侧**
+
+------
+
 ## `encode.h`
 
 - 该模块主要用于实现字符信息传化为01数据流
@@ -142,3 +150,95 @@
 返回一个 a_int 类型的结构体，其中 `cur.a[i]` 表示生成的里所码中 x^i 项的指数系数
 
 ------
+
+## `fill_matrix.h`
+
+- 该模块用于矩阵填充
+- 该模块下定义如下的结构体：
+> ```cpp 
+> struct matrix{
+>    int a[64][64];
+>    int size , mode , score;
+>    void initialize(){rep(i,0,31) rep(j,0,31) a[i][j] = -1;}
+>};
+> ```
+
+------
+
+### `string` `combine( string str , a_int a )`
+
+该函数读取两个参数 `(string)str` , `(a_int)a` ,表示读入信息01数据流 str 和 纠错码a ，返回将用于填充矩阵的最终01数据流
+
+返回一个 string 类型的变量，表示最终用于填充矩阵的01数据流，其中**最低位在最右**
+
+------
+
+### `matrix` `draw_stencil( int version )`
+
+该函数读取一个参数 `(int)version` 表示当前版本
+
+返回一个 matrix 类型结构体，储存当前版本下的二维码矩阵模版（即填充各个功能模块）
+
+------
+
+### `matrix` `fill_data( matrix m , string data )`
+
+该函数读取两个参数 `(matrix)m` , `(string)data` ，表示要将数据 data 填充到矩阵 m 中去
+
+返回填充完数据的 matrix 类型变量 m
+
+------
+
+### `void` `print_matrix( matrix output )`
+
+该函数读取一个参数 `(matrix)output` ，并打印该矩阵，主要用于调试
+
+------
+
+### `matrix` `fill_formatString( matrix m , string str )`
+
+该函数读取两个参数 `(matrix)m` , `(string)str` 
+
+返回将格式信息码 str 填入 m 后的 matrix 类型结构体
+
+------
+
+## `mask.h`
+
+- 该模块主要处理与掩码有关的相关内容
+
+------
+
+### `matrix` `extract_base( matrix m )`
+
+该函数读入一个参数 `(matrix)m` ，提取该矩阵中尚未被填写的内容
+
+即对于读入的矩阵 m ，输出的矩阵 m' 将满足如下关系：
+
+`m.a[i][j] = not m'.a[i][j]`
+
+返回一个 matrix 类型的结构体，表示提取后的矩阵
+
+------
+
+### `matrix` `make_mask( matrix m , int mode )`
+
+该函数读入两个变量 `(matrix)m` , `(int)mode` ，表示将要在矩阵 m 的基础上制作 类型mode 的掩码
+
+返回一个 matrix 类型结构体，表示在 底板矩阵m 下 类型mode 的掩码
+
+------
+
+### `matrix` `apply_mask( matrix output , matrix mask )`
+
+该函数读入两个变量 `(matrix)output` , `matrix mask` ，表示要将 掩码矩阵mask 应用到 矩阵output 上
+
+返回一个 matrix 类型机构体，表示 矩阵output 应用 掩码mask 后的结果
+
+------
+
+### `int` `evaluate( matrix m )`
+
+该函数读入一个变量 `(matrix)m` ，对该矩阵进行罚分评估
+
+返回一个 int 类型的变量，表示 矩阵m 的罚分

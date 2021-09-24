@@ -35,14 +35,14 @@ void print_matrix( matrix output ){
 }
 
 string combine( string str , a_int a ){
-    string output;
-    int len = str.length();
-    per(i,len-1,0) output += str[i];
-    rep(i,0,a.len-1){
+    string output = str;
+    // int len = str.length();
+    // per(i,len-1,0) output += str[i];
+    per(i,a.len-1,0){
         str = decimal_to_binary(a.a[i],8);
-        per(i,7,0) output += str[i];
+        output += str;
     }
-    len = output.length();
+    int len = output.length();
     // cout << output.length() << ' ' << output << "\n";
     return output;
 }

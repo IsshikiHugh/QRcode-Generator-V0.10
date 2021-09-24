@@ -104,7 +104,7 @@ int main(){
     qrCodeMatrix = fill_data( qrCodeMatrix , combinedData );
     
     // 调试
-    // cout << combinedData.length() << "\n";
+    // cout << combinedData << "\n";
     // print_matrix(qrCodeMatrix);
 
 // 选择掩码
@@ -123,11 +123,16 @@ int main(){
     // cout << "罚分 " << qrCodeMatrix_tmp.score << "\n";
     // print_matrix(qrCodeMatrix_tmp);
 
+    // print_matrix( make_mask(baseMatrix , 0) );
+
     rep(i,1,7){
         maskMatrix = make_mask( baseMatrix , i );
         qrCodeMatrix_tmp = apply_mask( qrCodeMatrix , maskMatrix );
         qrCodeMatrix_tmp.mode = i;
         qrCodeMatrix_tmp.score = evaluate( qrCodeMatrix_tmp );
+
+        // 调试
+        // cout << i << soutputMatrix);
 
         if(qrCodeMatrix_best.score > qrCodeMatrix_tmp.score)
             qrCodeMatrix_best = qrCodeMatrix_tmp;
@@ -144,6 +149,8 @@ int main(){
 
     // 得到已经经过掩码处理的矩阵qrCodeMatrix_best
 
+    // qrCodeMatrix_best = apply_mask( qrCodeMatrix , make_mask( baseMatrix , 6 ) );
+    // qrCodeMatrix_best.mode = 6;
 // 填充格式信息
 // -------------------------------------
     string formatString = typeInformationBits( level , qrCodeMatrix_best.mode );

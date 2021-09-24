@@ -104,8 +104,15 @@ a_int a_int_mod( a_int x , a_int y ){
             if(x.a[i-j] < 0) x.a[i-j] = alpha_mul( tmp , y.a[m-j] );
             else x.a[i-j] = alpha_plus( x.a[i-j] , alpha_mul( tmp , y.a[m-j] ) );
         }
+        // cout << i << "\n";
+        // rep(i,0,m) cout << x.a[i] << " ";
+        // cout << "\n";
     }
-    rep(i,0,m) ans.a[i] = x.a[i];
+    
+    // rep(i,0,m-1) cout << x.a[i] << " ";
+    // cout << "\n";
+
+    rep(i,0,m-1) ans.a[i] = x.a[i];
     return ans;
 }
 
@@ -140,11 +147,23 @@ a_int ECcode_make( string bitStream , int num_of_ECcode ){
     a_int ECcode_alpha , messagePol , generatorPol , ECcode;
     // 信息码
     messagePol = makeMessagePolynomial(bitStream);
+
+    // cout << bitStream << "\n";
+    // cout << "\n";
+    // rep(i,0,messagePol.len-1) cout << ( messagePol.a[i] ) << " ";
+    // cout << "\n";
+
     // 生成码
     generatorPol = makeGeneratorPolynomial(num_of_ECcode);
+    
+    // cout << "\n";
+    // rep(i,0,generatorPol.len-1) cout << ( generatorPol.a[i] ) << " ";
+    // cout << "\n";
+    
     // 纠错码（指数系数）
     ECcode_alpha = calculateECcode( messagePol , generatorPol);
     ECcode.len = ECcode_alpha.len;
+
     rep(i,0,ECcode_alpha.len-1) ECcode.a[i] = Exponent_to_Integer(ECcode_alpha.a[i]);
 
     return ECcode;
