@@ -45,9 +45,9 @@ int main(){
 // 数据读入
 // -------------------------------------
 
-    cout << "请输入您希望 QRcode 应包含的内容：\n";
-    cout << "Please enter message you want to turn it into a QR code：\n";
-    cout << "[FYA] 您当前仅能输入 { 阿拉伯数字  大写英文字母  [Space]  $  %  +  -  *  /  .  : } 中的内容 \n";
+    // cout << "请输入您希望 QRcode 应包含的内容: \n";
+    cout << "Please enter message you want to turn it into a QR code: \n";
+    // cout << "[FYA] 您当前仅能输入 { 阿拉伯数字  大写英文字母  [Space]  $  %  +  -  *  /  .  : } 中的内容 \n";
     cout << "[FYA] Only { number  uppercase_english_letters  [Space]  $  %  +  -  *  /  .  : } are legal \n";
     getline(cin,input);
     int len = input.length() , max_len;
@@ -55,11 +55,11 @@ int main(){
 
     bool isLegal = false;
     while(!isLegal){
-        cout << "< 请输入您想要的 QRcode 版本 >\n[ 输入 1 或者 2 ]：  \n";
-        cout << "< Please enter the version of QR code >\n[ enter 1 or 2 ]：  \n";
+        cout << "< 请输入您想要的 QRcode 版本 >\n[ 输入 1 或者 2 ]:   \n";
+        cout << "< Please enter the version of QR code >\n[ enter 1 or 2 ]:   \n";
         cin >> version;
-        cout << "< 请输入您想要的纠错等级 >\n[ 输入 L 或 M 或 Q 或 H ]：  \n";
-        cout << "< Please enter the EC level >\n[ enter L or M or Q or H ]：  \n";
+        cout << "< 请输入您想要的纠错等级 >\n[ 输入 L 或 M 或 Q 或 H ]:   \n";
+        cout << "< Please enter the EC level >\n[ enter L or M or Q or H ]:   \n";
         cin >> level;
         max_len = TotalNumber_of_DataCodeWords( version , level );
         if(max_len < len){
@@ -89,7 +89,7 @@ int main(){
     bitStream += fillCapacity( bitStream , TotalNumber_of_DataCodeWords( version , level ) );
 
     // 输出01数据流
-    // cout << "下面是 version = " << version << " ，level = " << level << " 下 \"" << input << "\" 经过编码后生成的01数据流：\n";
+    // cout << "下面是 version = " << version << " ，level = " << level << " 下 \"" << input << "\" 经过编码后生成的01数据流: \n";
     // len = bitStream.length();
     // rep(i,0,len-1){
     //     cout << bitStream[i];
@@ -103,7 +103,7 @@ int main(){
 
     // 输出纠错码
     // len = ECcode.len;
-    // cout << "下面是 version = " << version << " ，level = " << level << " 下 \"" << input << "\" 对应的纠错码：\n";
+    // cout << "下面是 version = " << version << " ，level = " << level << " 下 \"" << input << "\" 对应的纠错码: \n";
     // rep(i,0,len-1){
     //     cout << "[#" << i << "]: " << ECcode.a[i] << "\n";
     // }cout << "Over\n\n";
