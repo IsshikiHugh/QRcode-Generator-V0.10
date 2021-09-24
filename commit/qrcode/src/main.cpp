@@ -35,6 +35,8 @@ const int inf = 1e9+9;
 #include "fill_matrix.h"
 #include "mask.h"
 
+#include "./tool/svpng.inc"
+
 int main(){
     int version;
     char level;
@@ -43,25 +45,38 @@ int main(){
 // 数据读入
 // -------------------------------------
 
-    cout << "请输入版本：\n";
-    cin >> version;
-    cout << "请输入纠错等级：(LMQH)\n";
-    cin >> level;
     cout << "请输入您希望 QRcode 应包含的内容：\n";
-    // 读入内容;
+    cout << "[FYA] 您当前仅能输入 { 阿拉伯数字  大写英文字母  [Space]  $  %  +  -  *  /  .  : } 中的内容 \n";
     getline(cin,input);
+    int len = input.length() , max_len;
+    cout << len << " " << input << "\n";
+
+    bool isLegal = false;
+    while(!isLegal){
+        cout << "< 请输入您想要的 QRcode 版本 >\n[ 输入 1 或者 2 ]：  ";
+        cin >> version;
+        cout << "< 请输入您想要的纠错等级 >\n[ 输入 L 或 M 或 Q 或 H ]：  ";
+        cin >> level;
+        max_len = TotalNumber_of_DataCodeWords( version , level );
+        if(max_len < len){
+            cout << "[ERROR] 当前版本&纠错等级可储存的信息字节上限为 " << max_len << " ，而待储存信息字节数量为 " << len << " ，已经超过上限，请重新输入！\n";
+        } else {
+            isLegal = true;
+            cout << "[LEGAL] 开始生成二维码。\n";
+        }
+    }
 
 // 数据编码
 // -------------------------------------
 
     // 对string类型进行转移和位移，使字符串开头多一个[space]，意义不大
-    int len = input.length();
     rep(i,1,len) originalData += input[i-1];
     
     // 得到01数据流（输出字符串形式，从右到左）
     bitStream = encode_make( originalData );
     // 补充长度为 8*n 方便后续切割
-    if( len <= TotalNumber_of_DataCodeWords( version , level ) - 4 ) bitStream += "0000";
+    len = bitStream.length();
+    if( len <= 8*TotalNumber_of_DataCodeWords( version , level ) - 4 ) bitStream += "0000";
     len = bitStream.length();
     rep(i,1,8-(len%8)) bitStream += "0";
     // 填充码字至容量上限
@@ -162,8 +177,29 @@ int main(){
 
 // 绘图
 // -------------------------------------
+    
+    FILE *fp = fopen("qrcode.png","wb");
+    int p = -1 , size_pic = outputMatrix.size;
+    unsigned char pic[ 1000010 ] ;
+    rep(j,-40,10*size_pic+39) rep(i,-40,10*size_pic+39){
+        if(i < 0 || j < 0 || i > 10*size_pic-1 || j > 10*size_pic-1){
+            pic[++p] = 255;
+            pic[++p] = 255;
+            pic[++p] = 255;
+        } else if(outputMatrix.a[i/10][j/10]){
+            pic[++p] = 0;
+            pic[++p] = 0;
+            pic[++p] = 0;
+        } else {
+            pic[++p] = 255;
+            pic[++p] = 255;
+            pic[++p] = 255;
+        }
+    }
 
-
+    svpng(fp , size_pic*10+80 , size_pic*10+80 , pic , 0 );
+    fclose(fp);
+    system("qrcode.png");
 
 // -------------------------------------
 
