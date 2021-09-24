@@ -91,46 +91,67 @@ int main(){
 // -------------------------------------
 
     string combinedData = combine( bitStream , ECcode ); 
+    if( version == 2 ) combinedData += "0000000";
     matrix qrCodeMatrix = draw_stencil( version );
+
+    // 调试
+    // print_matrix(qrCodeMatrix);
+    // int size = qrCodeMatrix.size , oo = 0;
+    // rep(i,0,size-1) rep(j,0,size-1) if(qrCodeMatrix.a[i][j] == -1) ++oo;
+    // cout << oo <<"\n";
+
     matrix baseMatrix = qrCodeMatrix;
     qrCodeMatrix = fill_data( qrCodeMatrix , combinedData );
+    
+    // 调试
+    // cout << combinedData.length() << "\n";
+    // print_matrix(qrCodeMatrix);
 
 // 选择掩码
 // -------------------------------------
 
     baseMatrix = extract_base( baseMatrix );
-    matrix maskMatrix_best , maskMatrix_tmp;
-    int score_best , score_tmp;
-    int mode_best = 0 , mode_tmp = 0;
+    matrix qrCodeMatrix_best , qrCodeMatrix_tmp , maskMatrix;
     
-    maskMatrix_tmp = make_mask( baseMatrix , 0 );
-    score_best = score_tmp = score_mask( maskMatrix_tmp , qrCodeMatrix );
+    maskMatrix = make_mask( baseMatrix , 0 );
+    qrCodeMatrix_tmp = apply_mask( qrCodeMatrix , maskMatrix );
+    qrCodeMatrix_tmp.score = evaluate( qrCodeMatrix_tmp );
+    qrCodeMatrix_best = qrCodeMatrix_tmp;
 
     // 调试
     // cout << "0\n";
-    // print_matrix(maskMatrix_tmp);
+    // cout << "罚分 " << qrCodeMatrix_tmp.score << "\n";
+    // print_matrix(qrCodeMatrix_tmp);
 
     rep(i,1,7){
-        maskMatrix_tmp = make_mask( baseMatrix , i );
-        score_tmp = score_mask( maskMatrix_tmp , qrCodeMatrix );
-        mode_tmp = i;
+        maskMatrix = make_mask( baseMatrix , i );
+        qrCodeMatrix_tmp = apply_mask( qrCodeMatrix , maskMatrix );
+        qrCodeMatrix_tmp.mode = i;
+        qrCodeMatrix_tmp.score = evaluate( qrCodeMatrix_tmp );
 
-        if(score_best > score_tmp){
-            maskMatrix_best = maskMatrix_tmp,
-            score_best = score_tmp,
-            mode_best = mode_tmp;
-        }
+        if(qrCodeMatrix_best.score > qrCodeMatrix_tmp.score)
+            qrCodeMatrix_best = qrCodeMatrix_tmp;
         
         // 调试
         // cout << i << "\n";
-        // print_matrix(maskMatrix_tmp);
+        // cout << "罚分 " << qrCodeMatrix_tmp.score << "\n";
+        // print_matrix(qrCodeMatrix_tmp);
     }
 
+    // 调试
+    // cout << "罚分最少的掩码序号为 " << qrCodeMatrix_best.mode << " 为 " << qrCodeMatrix_best.score << " \n";
+    // print_matrix(qrCodeMatrix_best);
+
+    // 得到已经经过掩码处理的矩阵qrCodeMatrix_best
 
 // 填充格式信息
 // -------------------------------------
+    string formatString = typeInformationBits( level , qrCodeMatrix_best.mode );
+    matrix outputMatrix = fill_formatString( qrCodeMatrix_best , formatString );
 
-
+    // 调试
+    // cout << formatString << "\n";
+    print_matrix(outputMatrix);
 
 // 绘图
 // -------------------------------------

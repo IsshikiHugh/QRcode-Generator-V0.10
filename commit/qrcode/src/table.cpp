@@ -129,3 +129,128 @@ int Exponent_to_Integer( int p ){
     return map[p];
 }
 
+// 返回格式信息码
+string typeInformationBits( char level , int mode ){
+    string output = "" , tmp;
+    if(level == 'L'){
+        switch (mode){
+        case 0:
+            tmp = "111011111000100";
+            break;
+        case 1:
+            tmp = "111001011110011";
+            break;
+        case 2:
+            tmp = "111110110101010";
+            break;
+        case 3:
+            tmp = "111100010011101";
+            break;
+        case 4:
+            tmp = "110011000101111";
+            break;
+        case 5:
+            tmp = "110001100011000";
+            break;
+        case 6:
+            tmp = "110110001000001";
+            break;
+        case 7:
+            tmp = "110100101110110";
+            break;
+        default:
+            break;
+        }
+    } else if(level == 'M'){
+        switch (mode){
+        case 0:
+            tmp = "101010000010010";
+            break;
+        case 1:
+            tmp = "101000100100101";
+            break;
+        case 2:
+            tmp = "101111001111100";
+            break;
+        case 3:
+            tmp = "101101101001011";
+            break;
+        case 4:
+            tmp = "100010111111001";
+            break;
+        case 5:
+            tmp = "100000011001110";
+            break;
+        case 6:
+            tmp = "100111110010111";
+            break;
+        case 7:
+            tmp = "100101010100000";
+            break;
+        default:
+            break;
+        }
+    } else if(level == 'Q'){
+        switch (mode){
+        case 0:
+            tmp = "011010101011111";
+            break;
+        case 1:
+            tmp = "011000001101000";
+            break;
+        case 2:
+            tmp = "011111100110001";
+            break;
+        case 3:
+            tmp = "011101000000110";
+            break;
+        case 4:
+            tmp = "010010010110100";
+            break;
+        case 5:
+            tmp = "010000110000011";
+            break;
+        case 6:
+            tmp = "010111011011010";
+            break;
+        case 7:
+            tmp = "010101111101101";
+            break;
+        default:
+            break;
+        }
+    } else if(level == 'H'){
+        switch (mode){
+        case 0:
+            tmp = "001011010001001";
+            break;
+        case 1:
+            tmp = "001001110111110";
+            break;
+        case 2:
+            tmp = "001110011100111";
+            break;
+        case 3:
+            tmp = "001100111010000";
+            break;
+        case 4:
+            tmp = "000011101100010";
+            break;
+        case 5:
+            tmp = "000001001010101";
+            break;
+        case 6:
+            tmp = "000110100001100";
+            break;
+        case 7:
+            tmp = "000100000111011";
+            break;
+        default:
+            break;
+        }
+    }
+
+    per(i,14,0) output += tmp[i];
+    return output;
+}
+

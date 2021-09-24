@@ -28,7 +28,7 @@ void print_matrix( matrix output ){
     rep(j,0,output.size-1) rep(i,0,output.size-1){
         if(output.a[i][j] == 1) cout << "■ ";
         else if(output.a[i][j] == 0) cout << "□ ";
-        else if(output.a[i][j] == 3) cout << "# ";
+        else if(output.a[i][j] == 2) cout << "# ";
         else cout << "o ";
         if(i == output.size-1 ) cout << "\n";
     }
@@ -42,6 +42,7 @@ string combine( string str , a_int a ){
         str = decimal_to_binary(a.a[i],8);
         per(i,7,0) output += str[i];
     }
+    len = output.length();
     // cout << output.length() << ' ' << output << "\n";
     return output;
 }
@@ -117,6 +118,16 @@ matrix draw_stencil( int version ){
     // 绘制校正标志
     if(version != 1) output = draw_alignmentPattern( output );
 
+    int size = output.size;
+    // 黑点码元
+    output.a[8][ size-8 ] = 1;
+
+    // 预留格式信息
+    rep(i,0,8) if(output.a[i][8] < 0) output.a[i][8] = 2;
+    rep(j,0,7) if(output.a[8][j] < 0) output.a[8][j] = 2;
+    rep(i,0,7) if(output.a[ size-8 + i ][8] < 0) output.a[ size-8 + i ][8] = 2;
+    rep(j,0,6) if(output.a[8][ size-7 + j ] < 0) output.a[8][ size-7 + j ] = 2; 
+
     return output; 
 }
 
@@ -167,15 +178,6 @@ matrix place_data( matrix m , string data ){
 
 matrix fill_data( matrix m , string data ){
     int size = m.size;
-    
-    // 黑点码元
-    m.a[8][ size-8 ] = 1;
-
-    // 预留格式信息
-    rep(i,0,8) if(m.a[i][8] < 0) m.a[i][8] = 3;
-    rep(j,0,7) if(m.a[8][j] < 0) m.a[8][j] = 3;
-    rep(i,0,7) if(m.a[ size-8 + i ][8] < 0) m.a[ size-8 + i ][8] = 3;
-    rep(j,0,6) if(m.a[8][ size-7 + j ] < 0) m.a[8][ size-7 + j ] = 3; 
 
     // 填充数据
     m = place_data( m , data );
@@ -184,3 +186,19 @@ matrix fill_data( matrix m , string data ){
 
     return m;
 }
+
+matrix fill_formatString( matrix m , string str ){
+    int size = m.size;
+
+    rep(i,0,5) m.a[i][8] = str[i] -'0';
+    m.a[7][8] = str[6] -'0' ,
+    m.a[8][8] = str[7] -'0' ,
+    m.a[8][7] = str[8] -'0' ;
+    rep(j,9,14) m.a[8][14-j] = str[j] -'0';
+
+    rep(j,0,6) m.a[8][size-1-j] = str[j] - '0';
+    rep(i,7,14) m.a[size-15+i][8] = str[i] - '0';
+
+    return m;
+}
+

@@ -3,7 +3,7 @@
 
 struct matrix{
     int a[64][64];
-    int size;
+    int size , mode , score;
     void initialize(){rep(i,0,31) rep(j,0,31) a[i][j] = -1;}
 };
 
@@ -17,3 +17,5 @@ matrix draw_stencil( int version );
 matrix fill_data( matrix m , string data );
 
 void print_matrix( matrix output );
+
+matrix fill_formatString( matrix m , string str );
