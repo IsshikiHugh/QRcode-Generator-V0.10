@@ -39,7 +39,7 @@ void initialize(){
 string decimal_to_binary( int num , int size ){
     int len = 0;
     char ch[16] = {};
-    string ans = {};
+    string ans = "";
     while(num){
         ch[ ++len ] = '0' + num%2;
         num >>= 1;
@@ -63,7 +63,7 @@ string encode( string str ){
         tmp[0] = len/2;
     }
 
-    string output = {};
+    string output = "";
 
     rep(i,1,tmp[0]){
         if(tmp[i] > 0) output += decimal_to_binary(tmp[i],11);
