@@ -14,6 +14,8 @@ QRcode Generator V0.10
 ├── Readme.md                   // readme
 ├── compile.bat                 // 编译脚本
 ├── src                         // 源文件
+│   ├── tool                    // 使用的外部代码文件夹
+|   |   └── svpng.inc           // 绘图.inc
 │   ├── main.cpp                // main
 │   ├── table.cpp               // 打表.cpp
 │   ├── table.h                 // 打表.h
