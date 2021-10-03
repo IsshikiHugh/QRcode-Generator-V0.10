@@ -151,13 +151,15 @@ int main(){
         qrCodeMatrix_tmp = apply_mask( qrCodeMatrix , maskMatrix );
         qrCodeMatrix_tmp.mode = i;
         qrCodeMatrix_tmp.score = evaluate( qrCodeMatrix_tmp );
-
         // 调试
         // cout << i << soutputMatrix);
 
-        if(qrCodeMatrix_best.score > qrCodeMatrix_tmp.score)
+        // if(qrCodeMatrix_best.score > qrCodeMatrix_tmp.score)
+            // qrCodeMatrix_best = qrCodeMatrix_tmp;
+        if(i == 5){
             qrCodeMatrix_best = qrCodeMatrix_tmp;
-        
+            break;
+        }
         // 调试
         // cout << i << "\n";
         // cout << "罚分 " << qrCodeMatrix_tmp.score << "\n";
