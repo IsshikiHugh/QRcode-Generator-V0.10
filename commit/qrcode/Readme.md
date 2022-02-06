@@ -2,8 +2,6 @@ QRcode Generator V0.10
 ===========================
 用于生成 Alphanumeric Mode 的 version 1~2 的二维码
 
-programed by 夏彦
-
 ## 初始化与使用
 
 运行 `compile.bat` 后将在源目录下生成可执行文件 `run.exe`
